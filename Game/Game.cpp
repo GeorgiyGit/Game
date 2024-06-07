@@ -9,40 +9,38 @@
 #include "Player.h"
 #include "BaseCell.h"
 #include "Visualizer.h"
+
 int main()
 {
-    Player player(10, 25);
+    Player player(25, 10);
     Visualizer visualizer;
     LoadedArea loadedArea(&player);
     loadedArea.tilesInit();
-    visualizer.Visualize(loadedArea);
-
+    visualizer.RedrawVisualization(loadedArea);
     while (true) {
-        Sleep(50);
+        Sleep(100);
         if (GetKeyState('W') & 0x8000)
         {
-            player.setY(player.getY() - 1);
-            visualizer.Visualize(loadedArea);
+            player.setXY(player.getX(), player.getY() - 1);
+            visualizer.ChangeVisualization(loadedArea);
         }
         if (GetKeyState('A') & 0x8000)
         {
-            player.setX(player.getX() - 1);
-            visualizer.Visualize(loadedArea);
+            player.setXY(player.getX() - 1, player.getY());
+            visualizer.ChangeVisualization(loadedArea);
         }
         if (GetKeyState('S') & 0x8000)
         {
-            player.setY(player.getY() + 1);
-            visualizer.Visualize(loadedArea);
+            player.setXY(player.getX(), player.getY() + 1);
+            visualizer.ChangeVisualization(loadedArea);
         }
         if (GetKeyState('D') & 0x8000)
         {
-            player.setX(player.getX() + 1);
-            visualizer.Visualize(loadedArea);
+            player.setXY(player.getX() + 1, player.getY());
+            visualizer.ChangeVisualization(loadedArea);
         }
     }
 }
-
-
 
 
 
