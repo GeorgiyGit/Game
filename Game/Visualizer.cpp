@@ -1,6 +1,11 @@
 #include "Visualizer.h"
 #include <string>
 
+void setConsoleColor(WORD attributes) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, attributes);
+}
+
 void SetCursorPosition(int x, int y) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hConsole == INVALID_HANDLE_VALUE) {
@@ -57,14 +62,14 @@ std::string Visualizer::getMapStr(LoadedArea& area) {
     int playerY = player->getY();
     std::string str;
 
-    for (int y = 0;y < tileHeight;y++) {
-        for (int x = 0;x < tileWidth;x++) {
+    for (int y = 0;y < Tile::height;y++) {
+        for (int x = 0;x < Tile::width;x++) {
             if (playerX - tile.getStartX() == x && playerY - tile.getStartY() == y)
             {
                 str += '#';
             }
             else {
-                str += cells[y][x].getSymbol();
+                str += cells[y][x].getTopBlock()->getType()->getSymbol();
             }
         }
         str += '\n';
@@ -74,9 +79,9 @@ std::string Visualizer::getMapStr(LoadedArea& area) {
 }
 
 void Visualizer::DrawCords(int playerX, int playerY) {
-    SetCursorPosition(0, 20);
+    SetCursorPosition(0, Tile::height);
     std::cout << "                         ";
-    SetCursorPosition(0, 20);
+    SetCursorPosition(0, Tile::height);
     std::cout << playerX << " " << playerY << std::endl;
 }
 void Visualizer::ChangeVisualization(LoadedArea& area) {
@@ -99,10 +104,10 @@ void Visualizer::ChangeVisualization(LoadedArea& area) {
     int startX = 0;
     int startY = 0;
 
-    for (int y = 0;y < tileHeight;y++) {
-        for (int x = 0;x < tileWidth;x++) {
-            if (oldMap[y * (tileWidth + 1) + x] != str[y * (tileWidth + 1) + x]) {
-                redrawArea += str[y * (tileWidth + 1) + x];
+    for (int y = 0;y < Tile::height;y++) {
+        for (int x = 0;x < Tile::width;x++) {
+            if (oldMap[y * (Tile::width + 1) + x] != str[y * (Tile::width + 1) + x]) {
+                redrawArea += str[y * (Tile::width + 1) + x];
             }
             else if (redrawArea != "") {
                 SetCursorPosition(startX, startY);

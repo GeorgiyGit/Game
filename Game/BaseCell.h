@@ -1,12 +1,17 @@
 #pragma once
+#include "BaseBlock.h"
 class BaseCell
 {
 public:
     BaseCell();
-    BaseCell(char symbol);
 
-    char getSymbol();
-private:
-    char symbol;
+    void addBlock(BaseBlock* block);
+    void removeBlock(BaseBlock* block);
+    BaseBlock* getBlock(int pos);
+    BaseBlock* getTopBlock();
+protected:
+    BaseBlock** blocks;
+    int blocksSize;
+
 };
 
