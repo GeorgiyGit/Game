@@ -1,4 +1,6 @@
 #include "Visualizer.h"
+#include <string>
+
 void SetCursorPosition(int x, int y) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hConsole == INVALID_HANDLE_VALUE) {
@@ -33,13 +35,26 @@ void SetCursorVisibility(bool visible) {
     }
 }
 void Visualizer::RedrawVisualization(LoadedArea& area) {
-    Tile tile = area.getRenderedTile();
-    Player* player = area.getPlayer();
+    std::string str= getMapStr(area);
+    SetCursorVisibility(false);
+    system("cls");
+    std::cout << str;
+    oldMap = str;
 
+    Player* player = area.getPlayer();
     int playerX = player->getX();
     int playerY = player->getY();
 
+    DrawCords(playerX, playerY);
+}
+
+std::string Visualizer::getMapStr(LoadedArea& area) {
+    Tile tile = area.getRenderedTile();
+    Player* player = area.getPlayer();
+
     BaseCell** cells = tile.getCells();
+    int playerX = player->getX();
+    int playerY = player->getY();
     std::string str;
 
     for (int y = 0;y < tileHeight;y++) {
@@ -47,21 +62,23 @@ void Visualizer::RedrawVisualization(LoadedArea& area) {
             if (playerX - tile.getStartX() == x && playerY - tile.getStartY() == y)
             {
                 str += '#';
-                str += ' ';
             }
             else {
                 str += cells[y][x].getSymbol();
-                str += ' ';
             }
         }
         str += '\n';
     }
-    system("cls");
-    std::cout << str;
-    std::cout << playerX - tile.getStartX() << " " << playerX << " " << tile.getStartX() << std::endl;
-    std::cout << playerY - tile.getStartY() << " " << playerY << " " << tile.getStartY() << std::endl;
+
+    return str;
 }
 
+void Visualizer::DrawCords(int playerX, int playerY) {
+    SetCursorPosition(0, 20);
+    std::cout << "                         ";
+    SetCursorPosition(0, 20);
+    std::cout << playerX << " " << playerY << std::endl;
+}
 void Visualizer::ChangeVisualization(LoadedArea& area) {
     Tile tile = area.getRenderedTile();
     Player* player = area.getPlayer();
@@ -73,22 +90,40 @@ void Visualizer::ChangeVisualization(LoadedArea& area) {
     int playerPrevY = player->getPreviousY();
 
     BaseCell** cells = tile.getCells();
-    std::string str;
+
+    std::string str = getMapStr(area);
 
     SetCursorVisibility(false);
-    if (playerPrevX != playerX || playerPrevY != playerY) {
-        int lXPrev = playerPrevX - tile.getStartX();
-        int lYPrev = playerPrevY - tile.getStartY();
+    std::string redrawArea = "";
+    
+    int startX = 0;
+    int startY = 0;
 
-        int lX = playerX - tile.getStartX();
-        int lY = playerY - tile.getStartY();
-
-        SetCursorPosition(lXPrev * 2, lYPrev);
-
-        std::cout << cells[lYPrev][lXPrev].getSymbol();
-
-        SetCursorPosition(lX * 2, lY);
-        std::cout << '#';
+    for (int y = 0;y < tileHeight;y++) {
+        for (int x = 0;x < tileWidth;x++) {
+            if (oldMap[y * (tileWidth + 1) + x] != str[y * (tileWidth + 1) + x]) {
+                redrawArea += str[y * (tileWidth + 1) + x];
+            }
+            else if (redrawArea != "") {
+                SetCursorPosition(startX, startY);
+                std::cout << redrawArea;
+                redrawArea = "";
+                startX = x + 1;
+                startY = y;
+            }
+            else {
+                startX = x + 1;
+                startY = y;
+            }
+        }
+        if (redrawArea != "") {
+            redrawArea += '\n';
+        }
+        else {
+            startX = 0;
+            startY = y + 1;
+        }
     }
-    //SetCursorVisibility(true);
+    oldMap = str;
+    DrawCords(playerX, playerY);
 }
