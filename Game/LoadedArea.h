@@ -3,6 +3,7 @@
 #include "Player.h"
 class LoadedArea {
 public:
+    void changeRenderedTile(int vectorX, int vectorY);
     LoadedArea(Player* player);
     ~LoadedArea();
 
@@ -14,5 +15,7 @@ private:
     Tile** tiles;
     Tile renderedTile;
     Player* player;
+    int cX = 0;
+    int cY = 0;
 };
 

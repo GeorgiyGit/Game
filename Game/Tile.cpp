@@ -35,7 +35,7 @@ void Tile::cellsInit() {
     }
 }
 
-void Tile::addBlockToCell(int x,int y,BaseBlock* block) {
+void Tile::addBlockToCell(int x, int y, BaseBlock* block) {
     cells[y][x].addBlock(block);
 }
 BaseCell** Tile::getCells() {

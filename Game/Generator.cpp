@@ -4,7 +4,7 @@
 #include "BlockTypesService.h"
 Tile* Generator::generateTile(int x, int y) {
 	srand(x * Tile::width + y * Tile::height + SeedService::getSeed());
-	Tile* tile = new Tile(x * Tile::width, y * Tile::height);
+	Tile* tile = new Tile(x, y);
 	tile->cellsInit();
 	for (int y = 0;y < Tile::height;y++) {
 		for (int x = 0;x < Tile::width;x++) {
