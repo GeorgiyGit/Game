@@ -14,8 +14,8 @@ Tile* Generator::generateTile(int x, int y) {
 		}
 	}
 	for (int i = 0;i < 50;i++) {
-		int x = rand() % Tile::width;
-		int y = rand() % Tile::height;
+		int x = rand() % (Tile::width - 2) + 1;
+		int y = rand() % (Tile::height - 2) + 1;
 
 		BaseBlockType* type = BlockTypesService::getBlockType(BlockTypes::Tree);
 		BaseBlock* block = new BaseBlock(tile->getStartX() + x, tile->getStartY() + y, type);

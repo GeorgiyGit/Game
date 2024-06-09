@@ -131,6 +131,7 @@
     <ClCompile Include="BaseBlockType.cpp" />
     <ClCompile Include="BaseCell.cpp" />
     <ClCompile Include="BlockTypesService.cpp" />
+    <ClCompile Include="Colors.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="LoadedArea.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="BaseBlockType.h" />
     <ClInclude Include="BaseCell.h" />
     <ClInclude Include="BlockTypesService.h" />
+    <ClInclude Include="Colors.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="LoadedArea.h" />
     <ClInclude Include="Player.h" />

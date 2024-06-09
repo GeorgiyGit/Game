@@ -46,3 +46,16 @@ BaseBlock* BaseCell::getBlock(int pos) {
 BaseBlock* BaseCell::getTopBlock() {
     return blocks[blocksSize - 1];
 }
+
+MyColors BaseCell::getFColor() {
+    for (int i = blocksSize - 1;i >= 0;i--) {
+        if (blocks[i]->getType()->getIsFColor())return blocks[i]->getType()->getFColor();
+    }
+    return MyColors::gray;
+}
+MyColors BaseCell::getBColor() {
+    for (int i = blocksSize - 1;i >= 0;i--) {
+        if (blocks[i]->getType()->getIsBColor())return blocks[i]->getType()->getBColor();
+    }
+    return MyColors::black;
+}

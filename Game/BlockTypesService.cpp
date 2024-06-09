@@ -1,14 +1,22 @@
 #include "BlockTypesService.h"
 #include <iostream>
 #include <windows.h>
+#include "Colors.h"
 BlockTypesService::BlockTypesService() {
 	Initialize();
 }
 void BlockTypesService::Initialize() {
 	BlockTypesService::blockTypesSize = 2;
 	BlockTypesService::blockTypes = new BaseBlockType * [BlockTypesService::blockTypesSize];
-	BlockTypesService::blockTypes[0] = new BaseBlockType(BlockTypes::Stone, "Stone", ' ', BACKGROUND_INTENSITY, -1, -1, false, false);
-	BlockTypesService::blockTypes[1] = new BaseBlockType(BlockTypes::Tree, "Tree", '&', FOREGROUND_GREEN, 10, 1, true, true);
+
+	BaseBlockType* stone = new BaseBlockType(BlockTypes::Stone, "Stone", ' ', -1, -1, false, false);
+	stone->setBColor(MyColors::gray);
+	BlockTypesService::blockTypes[0] = stone;
+
+
+	BaseBlockType* tree = new BaseBlockType(BlockTypes::Tree, "Tree", '&', 10, 1, true, true);
+	tree->setFColor(MyColors::dark_green);
+	BlockTypesService::blockTypes[1] = tree;
 }
 int BlockTypesService::blockTypesSize = 1;
 BaseBlockType** BlockTypesService::blockTypes = new BaseBlockType * [BlockTypesService::blockTypesSize];

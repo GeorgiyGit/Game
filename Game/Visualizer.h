@@ -5,14 +5,26 @@
 #include "BaseCell.h"
 #include <iostream>
 #include <Windows.h>
+
+struct VisualizationCell
+{
+public:
+    MyColors fColor;
+    MyColors bColor;
+    char symbol;
+};
 class Visualizer {
 public:
+    Visualizer();
     void RedrawVisualization(LoadedArea& area);
     void ChangeVisualization(LoadedArea& area);
     void DrawCords(int playerX, int playerY);
 private:
-    std::string getMapStr(LoadedArea& area);
+    void restoreColor();
+    VisualizationCell*** getMapStr(LoadedArea& area);
     int tileWidth = 50;
     int tileHeight = 20;
-    std::string oldMap = "";
+    VisualizationCell** gameMap;
+    VisualizationCell** oldGameMap;
+    WORD originalAttributes;
 };
